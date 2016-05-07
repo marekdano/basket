@@ -1,4 +1,4 @@
-class Main extends React.Component {
+class MainItems extends React.Component {
   render() {
     return (
       <div className="container">

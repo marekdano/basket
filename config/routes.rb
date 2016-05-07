@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
+  get 'basket/index'
+
   root 'site#index'
 
   resources :items, only: :index
+  resources :baskets
 
   namespace :api do 
     namespace :v1 do 
       resources :items, only: :index, defaults: {format: :json}
+      resources :baskets, only: :index, defaults: {format: :json}
     end 
   end
 
