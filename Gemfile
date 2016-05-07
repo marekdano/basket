@@ -26,8 +26,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use font-awesome for icons
 gem 'font-awesome-sass', '~> 4.5.0' 
-
+# Use respond_with method from this gem
 gem 'responders'
+gem 'react-rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
