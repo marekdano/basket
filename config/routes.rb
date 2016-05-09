@@ -4,11 +4,11 @@ Rails.application.routes.draw do
   root 'site#index'
 
   resources :items, only: :index
-  resources :baskets
+  resources :baskets 
 
   namespace :api do 
     namespace :v1 do 
-      resources :items, only: :index, defaults: {format: :json}
+      resources :items, only: [:index, :create, :update, :destroy], defaults: {format: :json}
       resources :baskets, only: :index, defaults: {format: :json}
     end 
   end

@@ -1,34 +1,11 @@
 class ItemTable extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      items: [
-        { id: 1, name: 'Beer', price: 1.49},
-        { id: 2, name: 'Wine', price: 9.99}
-      ]
-    }
-  }
-
-  componentDidMount() {
-    $.getJSON(
-      '/api/v1/items.json', 
-      (response) => { 
-        this.setState({ 
-          items: response 
-        }) 
-      }
-    )
-  }
 
   render() {
-    var items = this.state.items.map((item) => {
+    var items = this.props.items.map((item) => {
       return (
-        <tr key={item.id}>
-          <td>{item.name}</td>
-          <td>{item.price}</td> 
-          <td><a href="/items" className="btn btn-info">Add to basket</a></td>
-        </tr>
+          <Item item={item}
+            handleDelete={this._handleDeleteClick.bind(this, item.id)}
+            handleUpdate={this._onUpdate.bind(this)} />       
       )
     });
     
@@ -37,7 +14,7 @@ class ItemTable extends React.Component {
         <thead>
           <th>Name</th>
           <th>Price</th>
-          <th></th>
+          <th>Action</th>
         </thead>
         <tbody>
           {items} 
@@ -45,4 +22,14 @@ class ItemTable extends React.Component {
       </table>
     );
   }
+
+  _handleDeleteClick(id) {
+    console.log('delete item clicked');
+    this.props.handleDelete(id);
+  }
+
+  _onUpdate(item) {
+    console.log('update item in table');
+    this.props.onUpdate(item);
+  } 
 }
