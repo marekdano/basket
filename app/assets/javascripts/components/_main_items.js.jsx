@@ -11,6 +11,7 @@ class MainItems extends React.Component {
 
     this._handleSubmit = this._handleSubmit.bind(this); 
     this._handleDelete = this._handleDelete.bind(this);
+    this._handleUpdate = this._handleUpdate.bind(this);
   }
 
   componentDidMount() {
@@ -29,9 +30,9 @@ class MainItems extends React.Component {
       <div className="container">
         <h1 className="text-uppercase">Items</h1>
         <NewItem handleSubmit={this._handleSubmit} />
-        <ItemTable items={this.state.items} 
-          handleDelete={this._handleDelete}
-          onUpdate={this._handleUpdate}/>
+        <ItemTable items={this.state.items}
+                   handleDelete={this._handleDelete}
+                   onUpdate={this._handleUpdate} />
       </div>
     )
   }
@@ -47,12 +48,13 @@ class MainItems extends React.Component {
       type: 'DELETE',
       success: () => {
         this._removeItem(id);
-        console.log('successfully removed item');
+        console.log('successfully item removed');
       }
     });
   }
 
   _removeItem(id) {
+    //const items = this._modifyItems(id);
     const newItems = this.state.items.filter((item) => {
       return item.id != id;
     });
@@ -60,7 +62,38 @@ class MainItems extends React.Component {
     this.setState({ items: newItems });
   }
 
-  _handleUpdate() {
+  _handleUpdate(item) {
     console.log('update the item');
+    $.ajax({
+      url: `/api/v1/items/${item.id}`,
+      type: 'PUT',
+      data: { item },
+      success: () => {
+        this._updateItems(item);
+        console.log('successfully item updated');
+      }
+    })
   }
+
+  _updateItems(item) {
+    //let items = this._modifyItems(item);
+    let items = this.state.items.filter((i) => {
+      return i.id != item.id
+    });
+    items.push(item);
+
+    this.setState({ items });
+  }
+
+  // _modifyItems(item) {
+  //   console.log(item);
+  //   let newItems = [...this.state.items];
+  //   console.log(newItems);
+  //   const itemIndex = newItems.indexOf(item);
+  //   console.log(itemIndex);
+  //   newItems.splice(itemIndex, 1);
+  //   console.log(newItems);
+  //   return newItems;
+  // }
+
 }

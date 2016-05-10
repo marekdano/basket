@@ -2,7 +2,7 @@ class NewItem extends React.Component {
   constructor() {
     super();
 
-    this._handleClick = this._handleClick.bind(this)
+    this._handleClick = this._handleClick.bind(this);
   }
 
   render() {
@@ -24,7 +24,7 @@ class NewItem extends React.Component {
     $.ajax({
       url: '/api/v1/items',
       type: 'POST',
-      data: { item: { name: name,  price: price } },
+      data: { item: { name,  price } },
       success: (item) => {
           this.props.handleSubmit(item);
           this.refs.name.value = '';
