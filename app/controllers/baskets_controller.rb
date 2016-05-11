@@ -1,4 +1,4 @@
-class Api::V1::BasketsController < Api::V1::BaseController
+class BasketsController < ApplicationController
   def index
   end
 end

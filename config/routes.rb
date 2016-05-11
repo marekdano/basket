@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   namespace :api do 
     namespace :v1 do 
       resources :items, only: [:index, :create, :update, :destroy], defaults: {format: :json}
-      resources :baskets, only: :index, defaults: {format: :json}
+      resources :baskets, only: [:show, :create, :destroy], defaults: {format: :json}
     end 
   end
 
