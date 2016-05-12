@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
-  get 'basket/index'
-
+  
   root 'site#index'
 
   resources :items, only: :index
-  resources :baskets 
+  resource :basket
 
   namespace :api do 
     namespace :v1 do 

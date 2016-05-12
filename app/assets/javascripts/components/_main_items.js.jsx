@@ -3,15 +3,14 @@ class MainItems extends React.Component {
     super();
 
     this.state = {
-      items: [
-        { id: 1, name: 'Beer', price: 1.49},
-        { id: 2, name: 'Wine', price: 9.99}
-      ]
+      basketId: localStorage.getItem( 'basketId' ) || 0,
+      items: []
     }
 
     this._handleSubmit = this._handleSubmit.bind(this); 
     this._handleDelete = this._handleDelete.bind(this);
     this._handleUpdate = this._handleUpdate.bind(this);
+    this._handleCreateBasket = this._handleCreateBasket.bind(this);
   }
 
   componentDidMount() {
@@ -26,17 +25,38 @@ class MainItems extends React.Component {
   }
 
   render() {
+    var basketButton;
+    if(this.state.basketId) {
+      basketButton = <a href="/basket">Basket</a>;
+    } else {
+      basketButton = <button className="btn btn-info" onClick={this._handleCreateBasket}>New basket</button>;
+    }
+    
+
     return (
       <div className="container">
+        <br />
+        {basketButton}
         <h1 className="text-uppercase">Items</h1>
         <NewItem handleSubmit={this._handleSubmit} />
         <ItemTable items={this.state.items}
+                   basketId={this.state.basketId}
                    handleDelete={this._handleDelete}
                    onUpdate={this._handleUpdate} />
       </div>
     )
   }
 
+  _handleCreateBasket() {
+    $.ajax({
+      url: '/api/v1/baskets',
+      type: 'POST',
+      success: (response) => {
+        this.setState({basketId: response.id});
+        localStorage.setItem( 'basketId', response.id );
+      }
+    })
+  }
   _handleSubmit(item) {
     const newState = this.state.items.concat([item]);
     this.setState({ items: newState }) 

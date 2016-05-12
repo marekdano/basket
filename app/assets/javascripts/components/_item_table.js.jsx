@@ -3,9 +3,11 @@ class ItemTable extends React.Component {
   render() {
     var items = this.props.items.map((item) => {
       return (
-          <Item item={item} key={item.id}
-            handleDelete={this._handleDeleteClick.bind(this, item.id)}
-            handleUpdate={this._onUpdate.bind(this)} />       
+          <Item item={item} 
+                key={item.id}
+                basketId={this.props.basketId}
+                handleDelete={this._handleDeleteClick.bind(this, item.id)}
+                handleUpdate={this._onUpdate.bind(this)} />       
       )
     });
     
