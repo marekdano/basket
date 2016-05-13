@@ -7,7 +7,8 @@ class ItemTable extends React.Component {
                 key={item.id}
                 basketId={this.props.basketId}
                 handleDelete={this._handleDeleteClick.bind(this, item.id)}
-                handleUpdate={this._onUpdate.bind(this)} />       
+                handleUpdate={this._onUpdate.bind(this)}
+                handleAddToBasket={this._onAddToBasket.bind(this, item)} />       
       )
     });
     
@@ -38,4 +39,10 @@ class ItemTable extends React.Component {
     console.log(item);
     this.props.onUpdate(item);
   } 
+
+  _onAddToBasket(item) {
+    console.log("Item");
+    console.log(item);
+    this.props.onAddToBasket(item);
+  }
 }

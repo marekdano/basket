@@ -11,6 +11,7 @@ class MainItems extends React.Component {
     this._handleDelete = this._handleDelete.bind(this);
     this._handleUpdate = this._handleUpdate.bind(this);
     this._handleCreateBasket = this._handleCreateBasket.bind(this);
+    this._handleAddToBasket = this._handleAddToBasket.bind(this);
   }
 
   componentDidMount() {
@@ -27,7 +28,8 @@ class MainItems extends React.Component {
   render() {
     var basketButton;
     if(this.state.basketId) {
-      basketButton = <a href="/basket">Basket</a>;
+      console.log(this.state.basketId);
+      basketButton = <a href="/basket" className="btn btn-info">Basket</a>;
     } else {
       basketButton = <button className="btn btn-info" onClick={this._handleCreateBasket}>New basket</button>;
     }
@@ -42,7 +44,8 @@ class MainItems extends React.Component {
         <ItemTable items={this.state.items}
                    basketId={this.state.basketId}
                    handleDelete={this._handleDelete}
-                   onUpdate={this._handleUpdate} />
+                   onUpdate={this._handleUpdate} 
+                   onAddToBasket={this._handleAddToBasket}/>
       </div>
     )
   }
@@ -57,6 +60,25 @@ class MainItems extends React.Component {
       }
     })
   }
+  
+  _handleAddToBasket(item) {
+    $.ajax({
+      url: `/api/v1/basket_items`,
+      type: 'POST',
+      data: { 
+              basket_item: 
+              { 
+                basket_id: this.state.basketId,
+                item_id: item.id,
+                quantity: 1   
+              }
+            },  
+      success: (response) => {
+        console.log(response);
+      }
+    })
+  }
+
   _handleSubmit(item) {
     const newState = this.state.items.concat([item]);
     this.setState({ items: newState }) 

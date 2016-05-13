@@ -12,7 +12,7 @@ class Item extends React.Component {
   render() {
     const name = this.state.editable ? <input type="text" ref="name" defaultValue={this.props.item.name} /> : <p>{this.props.item.name}</p>;
     const price = this.state.editable ? <input type="number" ref="price" defaultValue={this.props.item.price} /> : <p>{this.props.item.price}</p>;
-    const addButton = this.props.basketId ? <a href="/items" className="btn btn-info">Add to basket</a> : ''
+    const addButton = this.props.basketId ? <button className="btn btn-info" onClick={this.props.handleAddToBasket}>Add to basket</button> : ''
 
     return (
       <tr>
