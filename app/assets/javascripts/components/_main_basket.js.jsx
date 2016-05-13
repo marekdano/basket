@@ -3,14 +3,17 @@ class MainBasket extends React.Component {
     super();
 
     this.state = {
-      basket_id: localStorage.getItem( 'basketId' ),
+      basketId: localStorage.getItem( 'basketId' ),
       basketItems: []
     }
+
+    this._handleDelete = this._handleDelete.bind(this);
+    this._handleChange = this._handleChange.bind(this);
   }
 
   componentDidMount() {
     $.ajax({
-      url: `/api/v1/baskets/${this.state.basket_id}`,
+      url: `/api/v1/baskets/${this.state.basketId}`,
       type: 'GET',
       success: (response) => {
         this.setState({
@@ -21,26 +24,43 @@ class MainBasket extends React.Component {
   }
 
   render() {
-
     return (
       <div>
         <p>I am in the basket view.</p>
-        <BasketTable basketItems={this.state.basketItems} />
-        <button className="btn btn-danger" onClick={this._handleDeleteBasket.bind(this)}>Delete basket</button>
+        <BasketTable basketItems={this.state.basketItems} 
+                     onBasketItemDelete={this._handleDelete} 
+                     onUpdateQuantity={this._handleChange} />   
+        <br />
+        <br />
+        <a href="/"> Back</a>
       </div>
     )
   }
 
-  _handleDeleteBasket() {
-    $.ajax({
-      url: `/api/v1/baskets/${this.state.basket_id}`,
-      type: 'DELETE',
-      success: () => {
-        localStorage.setItem('basketId', '');
-        this.setState({ basket_id: '', 
-                        basketItems: []   
-                     });
-      }
-    })
+  _handleDelete(item) {
+    if(confirm("Are you sure to delete this item?")) {
+
+      $.ajax({
+        url: `/api/v1/basket_items/${item.id}`,
+        type: 'DELETE',
+        success: () => {
+          console.log('successfully item removed');
+
+          const basketItems = this.state.basketItems.filter((i) => {
+            return i.id != item.id;
+          });
+
+          this.setState({ basketItems: basketItems }); 
+        }
+      })
+    }
   }
+  
+  _handleChange(item) {
+    console.log("Handle Quantity change.");
+    if(item.quantity < 1) {
+      console.log(item.quantity);
+    } 
+  }
+
 }

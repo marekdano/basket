@@ -3,7 +3,9 @@ class BasketTable extends React.Component {
     basketItems = this.props.basketItems.map((item) => {
       return (
         <BasketItem basketItem={item} 
-                    key={item.id} />
+                    key={item.id} 
+                    handleDelete={this._handleDelete.bind(this, item)} 
+                    handleChange={this._handleChange.bind(this)}/>
       )
     });
 
@@ -20,5 +22,14 @@ class BasketTable extends React.Component {
         </tbody>
       </table>
     )
+  }
+
+  _handleDelete(item) {
+    this.props.onBasketItemDelete(item);
+  }
+  
+
+  _handleChange(item) {
+    this.props.onUpdateQuantity(item);
   }
 }

@@ -26,26 +26,28 @@ class MainItems extends React.Component {
   }
 
   render() {
-    var basketButton;
+    var basketButton, deleteBasketButton;
     if(this.state.basketId) {
-      console.log(this.state.basketId);
       basketButton = <a href="/basket" className="btn btn-info">Basket</a>;
+      deleteBasketButton = <button className="btn btn-danger" onClick={this._handleDeleteBasket.bind(this)}>Delete basket</button>
     } else {
       basketButton = <button className="btn btn-info" onClick={this._handleCreateBasket}>New basket</button>;
     }
     
-
     return (
       <div className="container">
+        <div className="inline pull-left">
+          {basketButton}
+          {deleteBasketButton}
+        </div>
         <br />
-        {basketButton}
         <h1 className="text-uppercase">Items</h1>
         <NewItem handleSubmit={this._handleSubmit} />
         <ItemTable items={this.state.items}
                    basketId={this.state.basketId}
                    handleDelete={this._handleDelete}
                    onUpdate={this._handleUpdate} 
-                   onAddToBasket={this._handleAddToBasket}/>
+                   onAddToBasket={this._handleAddToBasket} />
       </div>
     )
   }
@@ -126,6 +128,19 @@ class MainItems extends React.Component {
 
     this.setState({ items });
   }
+
+  _handleDeleteBasket() {
+    $.ajax({
+      url: `/api/v1/baskets/${this.state.basketId}`,
+      type: 'DELETE',
+      success: () => {
+        localStorage.setItem('basketId', '');
+        this.setState({ basketId: '' });
+      }
+    })
+  }
+
+
 
   // _modifyItems(item) {
   //   console.log(item);
