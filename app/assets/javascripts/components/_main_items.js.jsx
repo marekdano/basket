@@ -32,7 +32,7 @@ class MainItems extends React.Component {
   }
 
   _getBasketItems() {
-    if(this.state.basketItems.length > 0) {
+    if(this.state.basketItemIDs.length > 0) {
       $.ajax({
         url: `/api/v1/baskets/${this.state.basketId}`,
         type: 'GET',
@@ -47,33 +47,6 @@ class MainItems extends React.Component {
     
   }
 
-  render() {
-    var basketButton, deleteBasketButton;
-    if(this.state.basketId) {
-      basketButton = <a href="/basket" className="btn btn-info">Basket</a>;
-      deleteBasketButton = <button className="btn btn-danger" onClick={this._handleDeleteBasket.bind(this)}>Delete basket</button>
-    } else {
-      basketButton = <button className="btn btn-info" onClick={this._handleCreateBasket}>New basket</button>;
-    }
-    
-    return (
-      <div className="container">
-        <div className="inline pull-left">
-          {basketButton}
-          {deleteBasketButton}
-        </div>
-        <br />
-        <h1 className="text-uppercase">Items</h1>
-        <NewItem handleSubmit={this._handleSubmit} />
-        <ItemTable items={this.state.items}
-                   basketId={this.state.basketId}
-                   handleDelete={this._handleDelete}
-                   onUpdate={this._handleUpdate} 
-                   onAddToBasket={this._handleAddToBasket} />
-      </div>
-    )
-  }
-
   _handleCreateBasket() {
     $.ajax({
       url: '/api/v1/baskets',
@@ -86,6 +59,8 @@ class MainItems extends React.Component {
   }
   
   _handleAddToBasket(item) {
+    console.log(this.state.basketItemIDs);
+    console.log(this.state.basketItemIDs.indexOf(item.id));
     if( this.state.basketItemIDs.indexOf(item.id) == -1 ) {   
       this._handleCreateBasketItem(item);
     }
@@ -104,7 +79,6 @@ class MainItems extends React.Component {
               }
             },  
       success: (response) => {
-        const basketItems = this.state.basketItems.concat([response]);
         const basketItemIDs = this.state.basketItemIDs.concat([response.item_id]);
         this.setState({ basketItemIDs });
       }
@@ -180,4 +154,31 @@ class MainItems extends React.Component {
   //   return newItems;
   // }
 
+  render() {
+    var basketButton, deleteBasketButton;
+    if(this.state.basketId) {
+      basketButton = <a href="/basket" className="btn btn-info">Basket</a>;
+      deleteBasketButton = <button className="btn btn-danger" onClick={this._handleDeleteBasket.bind(this)}>Delete basket</button>
+    } else {
+      basketButton = <button className="btn btn-info" onClick={this._handleCreateBasket}>New basket</button>;
+    }
+    
+    return (
+      <div className="container">
+        <div className="inline">
+          {basketButton}
+          {deleteBasketButton}
+        </div>
+        <div>
+          <h1 className="text-uppercase">Items</h1>
+        </div>
+        <NewItem handleSubmit={this._handleSubmit} />
+        <ItemTable items={this.state.items}
+                   basketId={this.state.basketId}
+                   handleDelete={this._handleDelete}
+                   onUpdate={this._handleUpdate} 
+                   onAddToBasket={this._handleAddToBasket} />
+      </div>
+    )
+  }
 }

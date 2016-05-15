@@ -1,5 +1,25 @@
 class ItemTable extends React.Component {
 
+  _handleDeleteClick(id) {
+    console.log('delete item clicked');
+    console.log(id);
+    if(confirm("Are you sure to delete this item?")) {
+      this.props.handleDelete(id);
+    }
+  }
+
+  _onUpdate(item) {
+    console.log('update item in table');
+    console.log(item);
+    this.props.onUpdate(item);
+  } 
+
+  _onAddToBasket(item) {
+    console.log("Item");
+    console.log(item);
+    this.props.onAddToBasket(item);
+  }
+
   render() {
     var items = this.props.items.map((item) => {
       return (
@@ -24,25 +44,5 @@ class ItemTable extends React.Component {
         </tbody>
       </table>
     );
-  }
-
-  _handleDeleteClick(id) {
-    console.log('delete item clicked');
-    console.log(id);
-    if(confirm("Are you sure to delete this item?")) {
-      this.props.handleDelete(id);
-    }
-  }
-
-  _onUpdate(item) {
-    console.log('update item in table');
-    console.log(item);
-    this.props.onUpdate(item);
-  } 
-
-  _onAddToBasket(item) {
-    console.log("Item");
-    console.log(item);
-    this.props.onAddToBasket(item);
   }
 }

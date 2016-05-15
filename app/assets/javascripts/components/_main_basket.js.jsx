@@ -15,20 +15,6 @@ class MainBasket extends React.Component {
     this._getBasketItems();
   }
 
-  render() {
-    return (
-      <div>
-        <p>I am in the basket view.</p>
-        <BasketTable basketItems={this.state.basketItems} 
-                     onBasketItemDelete={this._handleDelete} 
-                     onUpdateQuantity={this._handleChange} />   
-        <br />
-        <br />
-        <a href="/"> Back</a>
-      </div>
-    )
-  }
-
   _handleDelete(item) {
     if(confirm("Are you sure to delete this item?")) {
 
@@ -81,6 +67,19 @@ class MainBasket extends React.Component {
         console.log(this.state.basketItems);
       }
     })
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <h1 className="text-uppercase">Basket</h1>
+        <h4>The list of item added into the basket.</h4>
+        <BasketTable basketItems={this.state.basketItems} 
+                     onBasketItemDelete={this._handleDelete} 
+                     onUpdateQuantity={this._handleChange} />
+        <a href="/"><i className="fa fa-angle-left"></i> Back</a>
+      </div>
+    )
   }
 
 }

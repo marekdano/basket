@@ -18,8 +18,8 @@ class Item extends React.Component {
       <tr>
       <td>{name}</td>
       <td>{price}</td> 
-      <td><button className="btn btn-info" onClick={this._handleEditClick}>{this.state.editable ? 'Submit' : 'Edit' }</button></td>
-      <td><button className="btn btn-danger" onClick={this.props.handleDelete}>Delete</button></td>
+      <td><button className="btn btn-info" onClick={this._handleEditClick}>{this.state.editable ? 'Submit' : 'Edit' }</button>
+          <button className="btn btn-danger" onClick={this.props.handleDelete}><i className="fa fa-trash-o"></i></button></td>
       <td>{addButton}</td>
       </tr>
     )

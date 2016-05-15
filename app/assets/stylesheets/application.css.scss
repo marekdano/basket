@@ -16,3 +16,14 @@
 
 @import "font-awesome-sprockets";
 @import "font-awesome";
+
+button, input, a {
+  margin: 2px 5px 2px 2px;
+}
+
+.container {
+  max-width: 800px;
+  margin-top: 40px;
+  margin-bottom: 3em;
+}
+

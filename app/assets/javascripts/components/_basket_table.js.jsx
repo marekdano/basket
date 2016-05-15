@@ -14,7 +14,8 @@ class BasketTable extends React.Component {
         <thead>
           <th>Name</th>
           <th>Price</th>
-          <th>Quantity</th>
+          <th className="text-right">Quantity</th>
+          <th></th>
           <th>Action</th>
         </thead>
         <tbody>

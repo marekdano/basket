@@ -3,6 +3,14 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
-input[type="number"].fail {
-  border: 2px solid red;
+input[type="number"] {
+  width: 50%;
+
+  &.fail {
+    border: 2px solid red; 
+  }
+}
+
+h4 {
+  margin-bottom: 2em;
 }
