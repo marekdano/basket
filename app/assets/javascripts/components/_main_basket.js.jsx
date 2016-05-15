@@ -12,15 +12,7 @@ class MainBasket extends React.Component {
   }
 
   componentDidMount() {
-    $.ajax({
-      url: `/api/v1/baskets/${this.state.basketId}`,
-      type: 'GET',
-      success: (response) => {
-        this.setState({
-          basketItems: response
-        })
-      }
-    })
+    this._getBasketItems();
   }
 
   render() {
@@ -60,7 +52,35 @@ class MainBasket extends React.Component {
     console.log("Handle Quantity change.");
     if(item.quantity < 1) {
       console.log(item.quantity);
+      item.quantity = 1;
     } 
+
+    $.ajax({
+        url: `/api/v1/basket_items/${item.id}`,
+        type: 'PUT',
+        data: { basket_item: item },
+        success: () => {
+          console.log("Item updated");
+          this._updateBasketItems();
+        }
+      })
+  }
+
+  _updateBasketItems() {
+    this._getBasketItems();
+  }
+
+  _getBasketItems() {
+    $.ajax({
+      url: `/api/v1/baskets/${this.state.basketId}`,
+      type: 'GET',
+      success: (response) => {
+        this.setState({
+          basketItems: response
+        })
+        console.log(this.state.basketItems);
+      }
+    })
   }
 
 }
