@@ -4,7 +4,8 @@ class MainItems extends React.Component {
 
     this.state = {
       basketId: localStorage.getItem( 'basketId' ) || 0,
-      items: []
+      items: [],
+      basketItemIDs: []
     }
 
     this._handleSubmit = this._handleSubmit.bind(this); 
@@ -15,6 +16,11 @@ class MainItems extends React.Component {
   }
 
   componentDidMount() {
+    this._getItems();
+    this._getBasketItems();
+  }
+
+  _getItems() {
     $.getJSON(
       '/api/v1/items.json', 
       (response) => { 
@@ -23,6 +29,22 @@ class MainItems extends React.Component {
         }) 
       }
     )
+  }
+
+  _getBasketItems() {
+    if(this.state.basketItems.length > 0) {
+      $.ajax({
+        url: `/api/v1/baskets/${this.state.basketId}`,
+        type: 'GET',
+        success: (response) => {
+          this.setState({
+            basketItems: response
+          })
+          console.log(this.state.basketItems);
+        }
+      })
+    }
+    
   }
 
   render() {
@@ -64,6 +86,12 @@ class MainItems extends React.Component {
   }
   
   _handleAddToBasket(item) {
+    if( this.state.basketItemIDs.indexOf(item.id) == -1 ) {   
+      this._handleCreateBasketItem(item);
+    }
+  }
+
+  _handleCreateBasketItem(item) {
     $.ajax({
       url: `/api/v1/basket_items`,
       type: 'POST',
@@ -76,7 +104,9 @@ class MainItems extends React.Component {
               }
             },  
       success: (response) => {
-        console.log(response);
+        const basketItems = this.state.basketItems.concat([response]);
+        const basketItemIDs = this.state.basketItemIDs.concat([response.item_id]);
+        this.setState({ basketItemIDs });
       }
     })
   }
@@ -136,20 +166,17 @@ class MainItems extends React.Component {
       success: () => {
         localStorage.setItem('basketId', '');
         this.setState({ basketId: '' });
+        this.setState({ basketItemIDs: [] });
       }
     })
   }
 
 
-
   // _modifyItems(item) {
-  //   console.log(item);
   //   let newItems = [...this.state.items];
-  //   console.log(newItems);
   //   const itemIndex = newItems.indexOf(item);
-  //   console.log(itemIndex);
   //   newItems.splice(itemIndex, 1);
-  //   console.log(newItems);
+  //  
   //   return newItems;
   // }
 

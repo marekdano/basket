@@ -1,3 +1,3 @@
 class Item < ActiveRecord::Base
-  has_many :basket_items
+  has_many :basket_items, dependent: :destroy
 end
