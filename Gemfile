@@ -29,6 +29,10 @@ gem 'font-awesome-sass', '~> 4.5.0'
 # Use respond_with method from this gem
 gem 'responders'
 gem 'react-rails'
+gem 'devise'
+# Tiddle provides Devise strategy for token authentication in API-only Ruby on Rails applications. 
+# Its main feature is support for multiple tokens per user.
+gem 'tiddle'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

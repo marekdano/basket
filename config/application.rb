@@ -31,5 +31,9 @@ module FullBasket
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # Use for tiddle gem. The safest solution in API-only application is not 
+    # to rely on Rails session at all and disable it.
+    config.middleware.delete ActionDispatch::Session::CookieStore
   end
 end

@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
+
   root 'site#index'
 
   resources :items, only: :index
@@ -13,6 +17,13 @@ Rails.application.routes.draw do
     end 
   end
 
+  namespace :api do 
+    namespace :v2 do 
+      resources :items, only: [:index, :create, :update, :destroy], defaults: {format: :json}
+      resources :baskets, only: [:show, :create, :destroy], defaults: {format: :json}
+      resources :basket_items, only: [:index, :create, :update, :destroy], defaults: {format: :json}
+    end 
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
