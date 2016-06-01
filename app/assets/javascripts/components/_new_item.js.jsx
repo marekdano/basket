@@ -8,7 +8,7 @@ class NewItem extends React.Component {
   render() {
     return (
       <div>
-        <form className="form-inline">
+        <form className="form-inline" novalidate>
           <div className="form-group">
             <input className="form-control" ref='name' type="text" placeholder='Enter the name of the item' />
           </div>
