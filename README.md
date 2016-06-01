@@ -1,3 +1,5 @@
-# basket
+# full basket
 
-The app is written in RnR. The backend of the app is Rails API and the fronend is written in ReactJS.
+Full basket is the application written in RnR and ReactJS. 
+
+The application follows the current standard of the web applications. The backend REST API is handled by Rails API and the frontend by ReactJS.
