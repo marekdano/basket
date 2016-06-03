@@ -3,9 +3,9 @@ class MainItems extends React.Component {
     super();
 
     this.state = {
-      basketId: localStorage.getItem( 'basketId' ) || 0,
+      basketId: localStorage.getItem('basketId') || 0,
       items: [],
-      basketItemIDs: []
+      basketItems: []
     }
 
     this._handleSubmit = this._handleSubmit.bind(this); 
@@ -32,7 +32,7 @@ class MainItems extends React.Component {
   }
 
   _getBasketItems() {
-    if(this.state.basketItemIDs.length > 0) {
+    if(this.state.basketId > 0) {
       $.ajax({
         url: `/api/v1/baskets/${this.state.basketId}`,
         type: 'GET',
@@ -40,6 +40,7 @@ class MainItems extends React.Component {
           this.setState({
             basketItems: response
           })
+          console.log("Basket items: ");
           console.log(this.state.basketItems);
         }
       })
@@ -59,9 +60,10 @@ class MainItems extends React.Component {
   }
   
   _handleAddToBasket(item) {
-    console.log(this.state.basketItemIDs);
-    console.log(this.state.basketItemIDs.indexOf(item.id));
-    if( this.state.basketItemIDs.indexOf(item.id) == -1 ) {   
+    var found = this.state.basketItems.some(i => i.item_id == item.id )
+    console.log(`Item found: ${found}`);
+
+    if( !found ) {   
       this._handleCreateBasketItem(item);
     }
   }
@@ -79,8 +81,8 @@ class MainItems extends React.Component {
               }
             },  
       success: (response) => {
-        const basketItemIDs = this.state.basketItemIDs.concat([response.item_id]);
-        this.setState({ basketItemIDs });
+        const newBasketItems = this.state.basketItems.concat([response]);
+        this.setState({ basketItems: newBasketItems });
       }
     })
   }
@@ -111,14 +113,12 @@ class MainItems extends React.Component {
   }
 
   _handleUpdate(item) {
-    console.log('update the item');
     $.ajax({
       url: `/api/v1/items/${item.id}`,
       type: 'PUT',
       data: { item },
       success: () => {
         this._updateItems(item);
-        console.log('successfully item updated');
       }
     })
   }
@@ -140,7 +140,7 @@ class MainItems extends React.Component {
       success: () => {
         localStorage.setItem('basketId', '');
         this.setState({ basketId: '' });
-        this.setState({ basketItemIDs: [] });
+        this.setState({ basketItems: [] });
       }
     })
   }
@@ -157,7 +157,7 @@ class MainItems extends React.Component {
   render() {
     var basketButton, deleteBasketButton;
     if(this.state.basketId) {
-      basketButton = <a href="/basket" className="btn btn-info">Basket</a>;
+      basketButton = <a href="/basket" className="btn btn-info">Basket <span className="badge">{this.state.basketItems.length}</span></a>;
       deleteBasketButton = <button className="btn btn-danger" onClick={this._handleDeleteBasket.bind(this)}>Delete basket</button>
     } else {
       basketButton = <button className="btn btn-info" onClick={this._handleCreateBasket}>New basket</button>;
