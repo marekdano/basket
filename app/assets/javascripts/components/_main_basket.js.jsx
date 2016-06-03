@@ -73,7 +73,7 @@ class MainBasket extends React.Component {
     return (
       <div className="container">
         <h1 className="text-uppercase">Basket</h1>
-        <h4>The list of item added into the basket.</h4>
+        <h4>The list of items added into the basket.</h4>
         <BasketTable basketItems={this.state.basketItems} 
                      onBasketItemDelete={this._handleDelete} 
                      onUpdateQuantity={this._handleChange} />

@@ -10,7 +10,7 @@ class NewItem extends React.Component {
       <div>
         <form className="form-inline" novalidate>
           <div className="form-group">
-            <input className="form-control" ref='name' type="text" placeholder='Enter the name of the item' />
+            <input className="form-control" ref='name' type="text" placeholder='Enter the name of an item' />
           </div>
           <div className="form-group">
             <input className="form-control" ref='price' type="number" pattern="[0-9]*" inputmode="numeric" placeholder='0.01' /> 
