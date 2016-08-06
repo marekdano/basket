@@ -32,6 +32,9 @@ gem 'devise'
 # Its main feature is support for multiple tokens per user.
 gem 'tiddle'
 
+# Support for Cross-Origin Resource Sharing (CORS)
+gem 'rack-cors', :require => 'rack/cors'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

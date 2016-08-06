@@ -33,10 +33,14 @@ module FullBasket
     config.active_record.raise_in_transactional_callbacks = true
 
     # Allow each site to bypass same origin policies and send cross-origin requests.
-    config.action_dispatch.default_headers.merge!({
-      'Access-Control-Allow-Origin' => '*',
-      'Access-Control-Request-Method' => '*'
-    })
+    # Support for Cross-Origin Resource Sharing (CORS) for Rack compatible web applications.
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :options]
+      end
+    end
+
 
     # Use for tiddle gem. The safest solution in API-only application is not 
     # to rely on Rails session at all and disable it.
